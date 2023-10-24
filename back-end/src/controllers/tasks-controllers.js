@@ -16,5 +16,28 @@ export async function createTask(req, res){
 }
 
 export async function findTasks(req, res){
+    const user = res.locals.user;
 
+    try{
+        const tasks = await tasksCollections.find({user_id: user._id}).toArray();
+
+        res.send({tasks, user})
+    }catch(e){
+        res.status(500).send(e);
+    }
+}
+
+export async function findTasksForTitle(req, res){
+    const user = res.locals.user;
+    const {title_task} = req.body;
+
+    try{
+        const tasks = await tasksCollections.find({user_id: user._id, title_task}).toArray();
+
+        if(!tasks) return res.sendStatus(401);
+
+        res.send({tasks, user})
+    }catch(e){
+        res.status(500).send(e);
+    }
 }
