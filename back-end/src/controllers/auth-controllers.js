@@ -20,12 +20,14 @@ export async function signUp(req, res){
 }
 
 export async function signIn(req, res){
-    const {_id, email, password} = res.locals.user;
+    const {_id} = res.locals.user;
 
     const token = uuidv4();
 
+    const created_at = new Date();
+
     try{
-        await sessionsCollections.insertOne({token, user_id: _id});
+        await sessionsCollections.insertOne({token, user_id: _id, created_at});
         
         res.send({token})
     }catch(e){
