@@ -1,11 +1,12 @@
 import { sessionsCollections, usersCollections } from "../database/db.js";
 import bcrypt from 'bcrypt';
 import {v4 as uuidv4} from 'uuid';
+import dayjs from 'dayjs';
 
 export async function signUp(req, res){
     const {name, email, password} = res.locals.user;
     const passwordHash = bcrypt.hashSync(password, 12);
-    const created_at = new Date();
+    const created_at = dayjs().format("DD/MM/YYYY");
     try{
         const emailExist = await usersCollections.findOne({email});
 
@@ -24,7 +25,7 @@ export async function signIn(req, res){
 
     const token = uuidv4();
 
-    const created_at = new Date();
+    const created_at = dayjs().format("DD/MM/YYYY");
 
     try{
         await sessionsCollections.insertOne({token, user_id: _id, created_at});

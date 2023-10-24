@@ -14,5 +14,5 @@ try{
 const db = mongoClient.db("seutorulist");
 export const usersCollections = db.collection("users");
 export const sessionsCollections = db.collection("sessions");
-export const listsCollections = db.collection("lists");
-export const usersListsCollections = db.collection("users_lists");
+export const tasksCollections = db.collection("tasks");
+export const usersTasksCollections = db.collection("users_tasks");
