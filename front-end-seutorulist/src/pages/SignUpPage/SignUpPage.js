@@ -17,6 +17,7 @@ export default function SignUpPage(){
 
 
     const signUp = async (e) => {
+        console.log("foi");
         e.preventDefault()
         const dadosCadastro = {name, email, password}
         setLoading(true)
@@ -26,15 +27,7 @@ export default function SignUpPage(){
         await axios.post(`${process.env.REACT_APP_API_BASE_URL}/sign-up`, dadosCadastro)
         console.log(process.env.REACT_APP_API_BASE_URL)
         
-        } catch (err){
-            // if (err.response?.status === 401){
-            //     alert("Senha e confirmação de senha devem ser iguais!")
-            // }
-            //  else if (err.response?.status === 409){
-            //     alert("Usuário ou email já cadastrados!")
-            // } else {
-            //     alert("Não foi possível fazer o cadastro, favor tentar novamente mais tarde!")
-            // }        
+        } catch (err){       
             alert(err.response)
             setLoading(false)
             return;
@@ -50,7 +43,6 @@ export default function SignUpPage(){
                 <LogoSignInUp/>
                 <CaixaSignUp>
                     <p>Se Cadastre</p>
-                    <Form onSubmit={signUp}>
                         <InputStyled
                         type="name"
                         placeholder="Nome"
@@ -80,12 +72,11 @@ export default function SignUpPage(){
                                 color="#ffffff"
                             />
                         ):(
-                            <Button type="submit" variant='contained' color='primary'>
+                            <Button onClick={signUp} variant='contained' color='primary'>
                                 Cadastre-se
                             </Button>
                         )}
                         </Register>
-                    </Form>
                     <br />
                     <Link to="/sign-in">
                         <p>Já possui conta? Faça login!</p>
@@ -111,11 +102,11 @@ const CaixaSignUp = styled.div`
   padding-right: 15%;
 `;
 
-const Form = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 20px;
-`;
+// const Form = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   margin: 20px;
+// `;
 
 const Register = styled.div`
     align-items: center;

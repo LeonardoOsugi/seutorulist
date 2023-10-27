@@ -25,7 +25,8 @@ export default function SignInPage(){
             setUserLogged(res.data);
             console.log(res.data);
             navigate("/tasks");
-        }).catch((e) => alert(e.response.data.message));
+        }).catch((e) => 
+        alert(e.response.data.message));
     }
     return(
         <>
@@ -33,7 +34,6 @@ export default function SignInPage(){
                 <LogoSignInUp/>
                 <CaixaSign >
                     <p>Faça seu Login</p>
-                    <Form onSubmit={login}>
                         <InputStyled
                         type="email"
                         placeholder="E-mail"
@@ -48,10 +48,9 @@ export default function SignInPage(){
                         onChange={(e) => setPassword(e.target.value)}
                         required
                         />
-                        <Button type="submit"variant='contained' color='primary'>
+                        <Button onClick={login} variant='contained' color='primary'>
                             Entrar
                         </Button>
-                    </Form>
                     <Link to="/sign-up">
                         <p>Ainda não possui uma conta? Cadastre-se!</p>
                     </Link>
@@ -74,9 +73,4 @@ const CaixaSign = styled.div`
   padding-bottom: 20%;
   padding-left: 15%;
   padding-right: 15%;
-`;
-const Form = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 20px;
 `;
