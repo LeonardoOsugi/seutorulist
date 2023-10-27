@@ -1,8 +1,9 @@
 import { ObjectId } from "mongodb";
-import { tasksCollections } from "../database/db.js";
+import { tasksCollections } from "../database/db";
 import dayjs from 'dayjs';
+import { Request, Response } from "express";
 
-export async function createTask(req, res){
+export async function createTask(req: Request, res: Response){
     const {user_id, title_task, description, status} = res.locals.task;
 
     const created_at = dayjs().format("DD/MM/YYYY");
@@ -16,7 +17,7 @@ export async function createTask(req, res){
     }
 }
 
-export async function findTasks(req, res){
+export async function findTasks(req: Request, res: Response){
     const user = res.locals.user;
 
     try{
@@ -29,7 +30,7 @@ export async function findTasks(req, res){
     }
 }
 
-export async function findTasksForTitle(req, res){
+export async function findTasksForTitle(req: Request, res: Response){
     const user = res.locals.user;
     const {title_task} = req.body;
 
@@ -45,7 +46,7 @@ export async function findTasksForTitle(req, res){
     }
 }
 
-export async function updatedTask(req, res){
+export async function updatedTask(req: Request, res: Response){
     const user = res.locals.user;
     const { id } = req.params;
     const {status} = req.body;
@@ -62,7 +63,7 @@ export async function updatedTask(req, res){
     }
 }
 
-export async function deletedTask(req, res){
+export async function deletedTask(req: Request, res: Response){
     const user = res.locals.user;
     const { id } = req.params;
 

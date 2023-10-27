@@ -1,7 +1,7 @@
 import {Router} from 'express';
-import { createTask, deletedTask, findTasks, findTasksForTitle, updatedTask } from '../controllers/tasks-controllers.js';
-import { taskSchemaValidation } from '../middlewares/task-schema-validation-middleware.js';
-import { authRoutesValidation } from '../middlewares/auth-validation-middleware.js';
+import { createTask, deletedTask, findTasks, findTasksForTitle, updatedTask } from '../controllers/tasks-controllers';
+import { taskSchemaValidation } from '../middlewares/task-schema-validation-middleware';
+import { authRoutesValidation } from '../middlewares/auth-validation-middleware';
 
 const tasksRouter = Router();
 
@@ -14,4 +14,4 @@ tasksRouter
 
 
 
-export default tasksRouter;
+export {tasksRouter};

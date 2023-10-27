@@ -1,7 +1,8 @@
-import { taskSchema } from "../models/tasks-models.js";
+import { NextFunction, Request, Response } from "express";
+import { taskSchema } from "../models/tasks-models";
 
 
-export function taskSchemaValidation(req, res, next){
+export function taskSchemaValidation(req: Request, res: Response, next: NextFunction){
     const {title_task, description, status} = req.body;
     const {_id} = res.locals.user;
 

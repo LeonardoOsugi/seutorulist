@@ -1,8 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import authRouter from './routes/auth-routes.js';
-import tasksRouter from './routes/tasks-routes.js';
+import { authRouter } from './routes/auth-routes';
+import { tasksRouter } from './routes/tasks-routes';
 dotenv.config();
 
 const app = express();

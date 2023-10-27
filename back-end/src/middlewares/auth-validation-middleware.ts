@@ -1,8 +1,9 @@
-import { sessionsCollections, usersCollections } from "../database/db.js";
-import { userSchemas } from "../models/users-models.js";
+import { NextFunction, Request, Response } from "express";
+import { sessionsCollections, usersCollections } from "../database/db";
+import { userSchemas } from "../models/users-models";
 import bcrypt from 'bcrypt';
 
-export function userSchemaValidation(req, res, next){
+export function userSchemaValidation(req: Request, res: Response, next: NextFunction){
     const user = req.body;
 
     const {error} = userSchemas.validate(user, {abortEarly: false});
@@ -17,7 +18,7 @@ export function userSchemaValidation(req, res, next){
     next();
 }
 
-export async function signInBodyValidation(req, res, next){
+export async function signInBodyValidation(req: Request, res: Response, next: NextFunction){
     const {email, password} = req.body;
 
     try{
@@ -37,7 +38,7 @@ export async function signInBodyValidation(req, res, next){
     next();
 }
 
-export async function authRoutesValidation(req, res, next){
+export async function authRoutesValidation(req: Request, res: Response, next: NextFunction){
     const {authorization} = req.headers;
     const token = authorization?.replace("Bearer ","");
 

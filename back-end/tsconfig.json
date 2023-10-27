@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+      "target": "ES2017",             // Versão do ECMAScript alvo
+      "module": "ESNext",           // Sistema de módulos (CommonJS para Node.js)
+      "moduleResolution": "node",
+      "strict": true,                 // Habilita checagem de tipos rigorosa
+      "esModuleInterop": true,        // Permite importar módulos CommonJS
+      "skipLibCheck": true,           // Pular a verificação de tipos de bibliotecas de terceiros
+      "forceConsistentCasingInFileNames": true, // Garante consistência de maiúsculas e minúsculas em nomes de arquivos
+      "outDir": "./dist",             // Diretório de saída para os arquivos compilados
+      "rootDir": "./src",             // Diretório raiz dos arquivos originais
+      "resolveJsonModule": true,      // Permite importar arquivos JSON como módulos
+    },
+    "include": [
+      "src/**/*.ts"                  // Lista de padrões de arquivos a serem incluídos na compilação
+    ],
+  }
+  

@@ -1,9 +1,11 @@
-import { sessionsCollections, usersCollections } from "../database/db.js";
+import { sessionsCollections, usersCollections } from "../database/db";
 import bcrypt from 'bcrypt';
 import {v4 as uuidv4} from 'uuid';
 import dayjs from 'dayjs';
+import { Request, Response } from "express";
 
-export async function signUp(req, res){
+
+export async function signUp(req: Request, res: Response){
     const {name, email, password} = res.locals.user;
     const passwordHash = bcrypt.hashSync(password, 12);
     const created_at = dayjs().format("DD/MM/YYYY");
@@ -20,7 +22,7 @@ export async function signUp(req, res){
     }
 }
 
-export async function signIn(req, res){
+export async function signIn(req: Request, res:Response){
     const {_id} = res.locals.user;
 
     const token = uuidv4();
