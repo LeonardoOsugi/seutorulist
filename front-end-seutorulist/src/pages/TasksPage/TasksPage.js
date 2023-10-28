@@ -78,7 +78,7 @@ export default function TasksPage(){
         }
 
         getTasks();
-    },[userLogged.token, deleteTask, updateTask, addTask]);
+    },[userLogged.token, deleteTask, updateTask, addTask, tasks]);
 
     return(
         <>
