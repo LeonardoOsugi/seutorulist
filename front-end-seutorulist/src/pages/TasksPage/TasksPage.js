@@ -1,9 +1,15 @@
 import styled from "@emotion/styled"
 import { InputStyled } from "../../components/InputStyled";
-import { Button } from "@mui/material";
+import { Button, SvgIcon } from "@mui/material";
 import { useCallback, useContext, useEffect, useState } from "react";
 import UserContext from "../../context/UserContext";
 import axios from "axios";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle"; 
+import { CaixaEstruturaTasksSearch } from "../../components/CaixaEstruturaTasksSearch";
+import { useNavigate } from "react-router-dom";
+import { Navbar } from "../../components/Navbar";
+import { BoxContent } from "../../components/BoxContent";
+import { CreateSearchTask } from "../../components/CreateSearchTask";
 
 
 export default function TasksPage(){
@@ -11,7 +17,10 @@ export default function TasksPage(){
     const [description, setDescription] = useState("");
     const [status, setStatus] = useState("EM ANDAMENTO");
     const [tasks, setTasks] = useState([]);
+    const [check, setCheck] = useState("none");
     const { userLogged } = useContext(UserContext);
+
+    const navigate = useNavigate();
 
     const deleteTask = useCallback(async(id) => {
         console.log("deu certo?")
@@ -28,15 +37,21 @@ export default function TasksPage(){
     }, [userLogged.token]);
 
     const updateTask = useCallback(async(id) => {
-        setStatus("CONCLUIDO");
         const config = {
             headers: {
               Authorization: `Bearer ${userLogged.token}`,
             },
         };
-
-        const body = {status};
         try{
+            if(status === "EM ANDAMENTO"){
+                setStatus("CONCLUIDO");
+                setCheck("block")
+            } else{
+                setStatus("EM ANDAMENTO");
+                setCheck("none");
+            }
+
+            const body = {status};
             await axios.put(`${process.env.REACT_APP_API_BASE_URL}/tasks/${id}`, body, config);
         }catch(e){
             alert(e.response.data.message);
@@ -58,7 +73,7 @@ export default function TasksPage(){
             
             alert(e.response.data.message);
         }
-    }, [userLogged.token, userLogged.user_id, title_task, description, status])
+    }, [userLogged.token, userLogged.user_id, title_task, description, status]);
 
     useEffect(() => {
         async function getTasks(){
@@ -80,23 +95,21 @@ export default function TasksPage(){
         getTasks();
     },[userLogged.token, deleteTask, updateTask, addTask, tasks]);
 
+    function nav(){
+        navigate("/search");
+    }
+
     return(
-        <>
-            <CaixaEstruturaTaks>
-                <CaixaPesquisa>
+            <CaixaEstruturaTasksSearch>
+                <Navbar>
                     <p>SeuToru List</p>
-                    <Form>
-                        <InputStyled
-                        placeholder="Pesquise sua tarefa..."
-                        />
-                        <Button variant='contained' color='primary'>
+                    <Button onClick={nav} variant='contained' color='primary'>
                             Pesquisa
-                        </Button>
-                    </Form>
-                </CaixaPesquisa>
-                <CaixaConteudo>
-                    <AddTask>
-                        <p> Create Tasks with title_task, description</p>
+                    </Button>
+                </Navbar>
+                <BoxContent>
+                    <CreateSearchTask>
+                        <p> Criar Tarefas</p>
                         <FormTask>
                             <InputStyled
                             placeholder="title"
@@ -112,69 +125,32 @@ export default function TasksPage(){
                                 Criar Tarefa
                             </Button>
                         </FormTask>
-                    </AddTask>
+                    </CreateSearchTask>
                     <List>
                     {Array.isArray(tasks.tasks) && tasks.tasks.length > 0? (
                         tasks.tasks.map((t) => 
                             <BoxTask status={t.status} key={t._id}>
-                                <p >{t.title_task}</p>
-                                <p>{t.description}</p>
-                                <Button onClick={() => updateTask(t._id)} variant='contained' color='primary'>
-                                    Update
-                                </Button>
-                                <Button onClick={() => deleteTask(t._id)} variant='contained' color='primary'>
-                                    Delete
-                                </Button>
+                                <SvgIcon component={CheckCircleIcon}viewBox="0 0 24 24" style={{ display: check, color: "green", margin: "10px"}}/>
+                                <Content>
+                                    <p >{t.title_task}</p>
+                                    <p>{t.description}</p>
+                                    <Button onClick={() => updateTask(t._id)} variant='contained' color='primary'>
+                                        Update
+                                    </Button>
+                                    <Button onClick={() => deleteTask(t._id)} variant='contained' color='primary'>
+                                        Delete
+                                    </Button>
+                                </Content>
+                                
                             </BoxTask>)
                     ) : (
                     <p>Ainda não há nenhuma tarefa</p>
                     )}
                     </List>
-                </CaixaConteudo>
-            </CaixaEstruturaTaks>
-        </>
+                </BoxContent>
+            </CaixaEstruturaTasksSearch>
     )
 };
-
-const CaixaEstruturaTaks = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-`;
-
-const CaixaPesquisa = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  background-color: black;
-  color: cyan;
-  font-size: 50px;
-  padding: 30px;
-`;
-
-const Form = styled.div`
-  justify-content: space-between;
-`;
-
-const CaixaConteudo = styled.div`
-    display: flex;
-    flex-direction: row;
-    color: cyan;
-`;
-
-const AddTask = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: lightblue;
-    color: black;
-    padding: 20%;
-    padding-bottom: 26%;
-    p{
-        margin-bottom: 20px;
-    }
-`;
 
 const FormTask = styled.div`
   display: flex;
@@ -191,6 +167,16 @@ const List = styled.div`
 `;
 
 const BoxTask = styled.div`
+    display: flex;
+    margin: 10px;
+    border-radius: 10px;
+    padding: 10%;
+    align-items: center;
+    justify-content: space-evenly;
     background-color: white;
-    text-decoration: ${(props) => (props.status === "CONCLUIDO"?'line-through':'none')}
+    text-decoration: ${(props) => (props.status !== "CONCLUIDO"?'none':'line-through')}
+`
+
+const Content = styled.div`
+    flex-direction: column
 `

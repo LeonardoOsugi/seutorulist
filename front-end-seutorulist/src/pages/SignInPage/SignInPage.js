@@ -70,7 +70,7 @@ const CaixaSign = styled.div`
   background-color: black;
   color: cyan;
   padding-top: 20%;
-  padding-bottom: 20%;
+  padding-bottom: 23%;
   padding-left: 15%;
   padding-right: 15%;
 `;

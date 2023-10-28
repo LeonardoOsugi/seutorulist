@@ -102,12 +102,6 @@ const CaixaSignUp = styled.div`
   padding-right: 15%;
 `;
 
-// const Form = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   margin: 20px;
-// `;
-
 const Register = styled.div`
     align-items: center;
 `;
