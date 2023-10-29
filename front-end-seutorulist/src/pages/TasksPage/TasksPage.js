@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Navbar } from "../../components/Navbar";
 import { BoxContent } from "../../components/BoxContent";
 import { CreateSearchTask } from "../../components/CreateSearchTask";
+import { ListTasks } from "../../components/ListTasks";
 
 
 export default function TasksPage(){
@@ -126,7 +127,7 @@ export default function TasksPage(){
                             </Button>
                         </FormTask>
                     </CreateSearchTask>
-                    <List>
+                    <ListTasks>
                     {Array.isArray(tasks.tasks) && tasks.tasks.length > 0? (
                         tasks.tasks.map((t) => 
                             <BoxTask status={t.status} key={t._id}>
@@ -146,7 +147,7 @@ export default function TasksPage(){
                     ) : (
                     <p>Ainda não há nenhuma tarefa</p>
                     )}
-                    </List>
+                    </ListTasks>
                 </BoxContent>
             </CaixaEstruturaTasksSearch>
     )
@@ -158,14 +159,6 @@ const FormTask = styled.div`
   justify-content: space-between;
 `;
 
-const List = styled.div`
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    margin: 10%;
-`;
-
 const BoxTask = styled.div`
     display: flex;
     margin: 10px;
@@ -175,7 +168,7 @@ const BoxTask = styled.div`
     justify-content: space-evenly;
     background-color: white;
     text-decoration: ${(props) => (props.status !== "CONCLUIDO"?'none':'line-through')}
-`
+`;
 
 const Content = styled.div`
     flex-direction: column
